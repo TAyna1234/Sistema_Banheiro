@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard do Aluno</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #222;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    .container-dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .status, .acoes, .fila, .historico {
+      flex: 1 1 300px;
+      min-width: 280px;
+      background: #ffffff;
+      padding: 25px 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .status:hover, .acoes:hover, .fila:hover, .historico:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    }
+    .status-box {
+      padding: 12px 20px;
+      border-radius: 15px;
+      font-weight: bold;
+      margin-top: 15px;
+      display: inline-block;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    .status-box.livre { background-color: #d4edda; color: #155724; }
+    .status-box.ocupado { background-color: #f8d7da; color: #721c24; }
+    button {
+      padding: 12px 0;
+      background: #00bcd4;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 10px auto;
+      display: block;
+      width: 80%;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      background: #0097a7;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0,151,167,0.35);
+    }
+    .fila-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .aluno {
+      background-color: #f5d6d6;
+      color: #333;
+      padding: 12px 18px;
+      border-radius: 12px;
+      width: 80%;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .aluno:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      text-align: center;
+    }
+    th, td { padding: 12px; border-bottom: 1px solid #ddd; }
+    th { background-color: #00bcd4; color: white; border-radius: 10px 10px 0 0; }
+    .filtros { margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    select {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .badge {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      color: white;
+      display: inline-block;
+      font-size: 15px;
+    }
+    .abaixo { background-color: #e74c3c; }
+    .acima { background-color: #27ae60; }
+  </style>
+</head>
+<body>
+
+<h1><i class="fas fa-user-circle" style="color:#00bcd4; margin-right:10px;"></i> Bem-vindo, Aluno!</h1>
+
+<div class="container-dashboard">
+
+  <div class="status">
+    <h3>Status do Banheiro</h3>
+    <div id="statusBanheiro" class="status-box livre">Disponível</div>
+  </div>
+
+  <div class="acoes" id="acoes">
+    <button id="btn-solicitar" onclick="solicitarSaida()">Solicitar saída</button>
+    <button id="btn-cancelar" onclick="cancelarSolicitacao()" style="display:none;">Cancelar solicitação</button>
+    <button id="btn-retornei" onclick="retornei()" style="display:none;">Retornei</button>
+  </div>
+
+  <div class="fila">
+    <h3>Fila Atual</h3>
+    <p id="posicao">Sua posição: -</p>
+    <div class="fila-container" id="filaContainer"></div>
+  </div>
+
+  <div class="historico">
+    <h3>Histórico</h3>
+    <div class="filtros">
+      <label for="filtroPeriodo">Filtrar por período:</label>
+      <select id="filtroPeriodo">
+        <option value="todas">Todas</option>
+        <option value="semana">Última semana</option>
+        <option value="mes">Último mês</option>
+      </select>
+      <button onclick="carregarHistorico()">Aplicar filtro</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Saída</th>
+          <th>Retorno</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="historico-body"></tbody>
+    </table>
+
+    <div id="badge" class="badge"></div>
+  </div>
+
+</div>
+
+<script>
+const alunoLogado = "Lorena Arruda"; // Troque pelo login real do aluno
+let historico = JSON.parse(localStorage.getItem("historico_" + alunoLogado)) || [];
+
+// Histórico
+function carregarHistorico() {
+  const filtro = document.getElementById("filtroPeriodo").value;
+  const tbody = document.getElementById("historico-body");
+  tbody.innerHTML = "";
+  const hoje = new Date();
+  let dataLimite;
+  if (filtro === "semana") { dataLimite = new Date(); dataLimite.setDate(hoje.getDate()-7); }
+  if (filtro === "mes") { dataLimite = new Date(); dataLimite.setMonth(hoje.getMonth()-1); }
+
+  let totalMinutos = 0;
+  let count = 0;
+  historico.forEach(entry => {
+    const entryDate = new Date(entry.data);
+    if (!dataLimite || entryDate >= dataLimite) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${entry.data}</td><td>${entry.saida}</td><td>${entry.retorno}</td><td>${entry.total}</td>`;
+      tbody.appendChild(row);
+      const min = parseInt(entry.total.split(" ")[0]);
+      totalMinutos += min;
+      count++;
+    }
+  });
+
+  const media = count ? totalMinutos / count : 0;
+  const badge = document.getElementById("badge");
+  if (media > 8) { badge.textContent = "Você ficou acima da média da turma!"; badge.className="badge acima"; }
+  else { badge.textContent = "Você ficou abaixo da média da turma!"; badge.className="badge abaixo"; }
+}
+
+// Fila
+function carregarFila() {
+  let fila = JSON.parse(localStorage.getItem("fila")) || [];
+  const container = document.getElementById("filaContainer");
+  container.innerHTML = "";
+  fila.forEach(nome => {
+    const div = document.createElement("div");
+    div.className="aluno";
+    div.innerText=nome;
+    container.appendChild(div);
+  });
+  atualizarStatusBanheiro(fila);
+  atualizarPosicao(fila);
+  atualizarBotoes(fila);
+  carregarHistorico();
+}
+
+function atualizarStatusBanheiro(fila) {
+  const statusDiv = document.getElementById("statusBanheiro");
+  if(fila.length===0){statusDiv.className="status-box livre"; statusDiv.textContent="Disponível";}
+  else{statusDiv.className="status-box ocupado"; statusDiv.textContent="Ocupado";}
+}
+
+function atualizarPosicao(fila){
+  const pos=fila.indexOf(alunoLogado);
+  const posicao=document.getElementById("posicao");
+  posicao.innerText = pos===-1 ? "Você não está na fila." : `Sua posição: ${pos+1}`;
+}
+
+function atualizarBotoes(fila){
+  const btnSolicitar=document.getElementById("btn-solicitar");
+  const btnCancelar=document.getElementById("btn-cancelar");
+  const btnRetornei=document.getElementById("btn-retornei");
+  const pos=fila.indexOf(alunoLogado);
+  btnSolicitar.style.display = pos===-1?"block":"none";
+  btnCancelar.style.display = pos>=0?"block":"none";
+  btnRetornei.style.display = pos===0?"block":"none";
+}
+
+// Solicitar saída
+function solicitarSaida(){
+  let fila=JSON.parse(localStorage.getItem("fila"))||[];
+  if(!fila.includes(alunoLogado)){ fila.push(alunoLogado); localStorage.setItem("fila",JSON.stringify(fila)); localStorage.setItem("horaSaida_"+alunoLogado,new Date().toISOString()); }
+  carregarFila();
+}
+
+// Cancelar solicitação
+function cancelarSolicitacao(){
+  let fila=JSON.parse(localStorage.getItem("fila"))||[];
+  fila=fila.filter(nome=>nome!==alunoLogado);
+  localStorage.setItem("fila",JSON.stringify(fila));
+  localStorage.removeItem("horaSaida_"+alunoLogado);
+  carregarFila();
+}
+
+// Retornei
+function retornei(){
+  const horaSaida=localStorage.getItem("horaSaida_"+alunoLogado);
+  if(!horaSaida){ alert("Você não registrou uma saída."); return; }
+  const inicio=new Date(horaSaida);
+  const fim=new Date();
+  const tempoMs=fim-inicio;
+  const min=Math.floor(tempoMs/60000);
+  const seg=Math.floor((tempoMs%60000)/1000);
+  const total=`${min} min${seg>0?" "+seg+" s":""}`;
+  historico.unshift({
+    data: inicio.toISOString().split('T')[0],
+    saida: inicio.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    retorno: fim.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    total: total
+  });
+  localStorage.setItem("historico_"+alunoLogado,JSON.stringify(historico));
+  cancelarSolicitacao();
+  carregarFila();
+}
+
+window.onload = carregarFila;
+</script>
+
+</body>
+</html>

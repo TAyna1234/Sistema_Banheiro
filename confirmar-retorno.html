@@ -1,0 +1,118 @@
+<!-- confirmar-retorno.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmação de Retorno</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .modal {
+      background: #ffffff;
+      padding: 35px 25px;
+      border-radius: 15px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 320px;
+      max-width: 90%;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #222;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 10px 5px 0 5px;
+      width: 45%;
+      transition: all 0.3s ease;
+    }
+
+    .btn-confirm {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      background-color: #43a047;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(67,160,71,0.35);
+    }
+
+    .btn-cancel {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .btn-cancel:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(192,57,43,0.35);
+    }
+
+    .mensagem-final {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="modal">
+    <h2>Confirma seu retorno à sala?</h2>
+    <div>
+      <button class="btn btn-confirm" onclick="confirmarRetorno()">Confirmar</button>
+      <button class="btn btn-cancel" onclick="fecharModal()">Cancelar</button>
+    </div>
+    <div class="mensagem-final" id="mensagemFinal"></div>
+  </div>
+
+  <script>
+    const tempoInicial = new Date(new Date().getTime() - (10 * 60000));
+
+    function confirmarRetorno() {
+      const agora = new Date();
+      const minutos = Math.round((agora - tempoInicial) / 60000);
+      document.getElementById("mensagemFinal").innerText = `Tempo total fora: ${minutos} minutos.`;
+
+      // Aqui poderia atualizar o histórico via backend ou localStorage
+    }
+
+    function fecharModal() {
+      document.querySelector('.modal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Escolha seu perfil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 50px 35px;
+      border-radius: 18px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 90%;
+      max-width: 450px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ================== LOGO ================== */
+    .logo {
+      width: 150px; /* Aumentei para ficar maior e nítida */
+      max-width: 100%; /* Para não quebrar layout em telas pequenas */
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      margin-bottom: 35px;
+      color: #222;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      margin: 12px 0;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      background-color: #00bcd4;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3);
+    }
+
+    .btn:hover {
+      background-color: #0097a7;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 151, 167, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="img.png" alt="Logo SESI/SENAI" class="logo">
+    <h1>Você é:</h1>
+    <button class="btn" onclick="window.location.href='login-aluno.html'">Aluno</button>
+    <button class="btn" onclick="window.location.href='login-professor.html'">Professor</button>
+  </div>
+</body>
+</html>

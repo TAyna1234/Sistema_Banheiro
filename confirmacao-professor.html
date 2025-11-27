@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmação de Retorno</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fdf5e6, #f5f5f5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 35px 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 12px 25px;
+      background-color: #4a90e2;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ab8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(53,122,184,0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Confirmação de Retorno</h2>
+    <p id="mensagem"></p>
+    <button onclick="voltarDashboard()">Voltar ao Dashboard</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const aluno = params.get('aluno');
+
+    const mensagem = document.getElementById('mensagem');
+    if (aluno) {
+      mensagem.textContent = `Você confirmou o retorno de ${aluno}.`;
+    } else {
+      mensagem.textContent = 'Nenhum aluno selecionado.';
+    }
+
+    function voltarDashboard() {
+      window.location.href = "dashboard-professor.html";
+    }
+  </script>
+</body>
+</html>

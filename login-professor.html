@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login do Professor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    }
+
+    .login-container {
+      background: #ffffff;
+      padding: 45px 35px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #222;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    input {
+      display: block;
+      width: 90%;
+      padding: 12px 15px;
+      margin: 12px auto;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #00bcd4;
+      box-shadow: 0 0 8px rgba(0, 188, 212, 0.3);
+      outline: none;
+    }
+
+    button {
+      width: 90%;
+      padding: 14px 0;
+      margin-top: 15px;
+      background-color: #00bcd4;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 151, 167, 0.35);
+    }
+
+    .error {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .cadastro {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .cadastro a {
+      color: #00bcd4;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s, text-decoration 0.3s;
+    }
+
+    .cadastro a:hover {
+      text-decoration: underline;
+      color: #0097a7;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login do Professor</h2>
+    <input type="text" id="matricula" placeholder="Matrícula ou E-mail">
+    <input type="password" id="senha" placeholder="Senha">
+    <button onclick="entrarProfessor()">Entrar</button>
+    <div class="error" id="erroLogin"></div>
+
+    <div class="cadastro">
+      <p>Não tem cadastro? <a href="cadastro-professor.html">Crie sua senha</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Definir login e senha fixos para teste
+    localStorage.setItem("professorMatricula", "admin");
+    localStorage.setItem("professorSenha", "123");
+
+    function entrarProfessor() {
+      const matricula = document.getElementById("matricula").value;
+      const senha = document.getElementById("senha").value;
+
+      const matriculaSalva = localStorage.getItem("professorMatricula");
+      const senhaSalva = localStorage.getItem("professorSenha");
+
+      if (matricula === matriculaSalva && senha === senhaSalva) {
+        window.location.href = "dashboard-professor.html";
+      } else {
+        document.getElementById("erroLogin").innerText = "Matrícula ou senha incorretos!";
+      }
+    }
+  </script>
+</body>
+</html>

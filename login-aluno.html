@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login do Aluno</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    }
+
+    .login-container {
+      background: #ffffff;
+      padding: 50px 35px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 90%;
+      max-width: 350px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #222;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    input {
+      display: block;
+      width: 90%;
+      max-width: 280px;
+      padding: 12px 15px;
+      margin: 12px auto;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #00bcd4;
+      box-shadow: 0 0 8px rgba(0, 188, 212, 0.3);
+      outline: none;
+    }
+
+    button {
+      width: 90%;
+      max-width: 280px;
+      padding: 14px 0;
+      margin-top: 15px;
+      background-color: #00bcd4;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 151, 167, 0.35);
+    }
+
+    .error {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login do Aluno</h2>
+    <input type="text" id="matricula" placeholder="Matrícula ou E-mail">
+    <input type="password" id="senha" placeholder="Senha">
+    <button onclick="entrarAluno()">Entrar</button>
+    <div class="error" id="erroLogin"></div>
+  </div>
+
+  <script>
+    function entrarAluno() {
+      const matricula = document.getElementById("matricula").value;
+      const senha = document.getElementById("senha").value;
+
+      if (matricula === "aluno" && senha === "123") {
+        window.location.href = "dashboard-aluno.html";
+      } else {
+        document.getElementById("erroLogin").innerText = "Matrícula ou senha incorretos!";
+      }
+    }
+  </script>
+</body>
+</html>
